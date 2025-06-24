@@ -245,11 +245,13 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   stepTitle: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
     color: "#ffffff",
     textAlign: "center",
     marginBottom: 10,
+    letterSpacing: 1,
+    lineHeight: 38,
   },
   stepSubtitle: {
     fontSize: 18,
@@ -257,6 +259,8 @@ const styles = StyleSheet.create({
     opacity: 0.9,
     textAlign: "center",
     marginBottom: 20,
+    letterSpacing: 0.5,
+    lineHeight: 24,
   },
   stepDescription: {
     fontSize: 16,

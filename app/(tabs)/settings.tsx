@@ -99,7 +99,10 @@ export default function SettingsScreen() {
       await NotificationService.sendTestNotification();
       Alert.alert("Test Sent", "Check your notifications to see if it worked!");
     } catch (error) {
-      Alert.alert("Error", (error as Error).message || "Failed to send test notification");
+      Alert.alert(
+        "Error",
+        (error as Error).message || "Failed to send test notification"
+      );
     }
   };
 
@@ -185,245 +188,254 @@ export default function SettingsScreen() {
           </ThemedText>
         </View>
 
-      <ScrollView style={styles.scrollView}>
-        {/* Notifications */}
-        {renderSection(
-          "Notifications",
-          <>
-            {renderSettingRow(
-              "Enable Notifications",
-              "Receive alerts for upcoming meteor showers",
-              <Switch
-                value={notificationSettings.enabled}
-                onValueChange={(value) =>
-                  updateNotificationSettings({ enabled: value })
-                }
-                trackColor={{
-                  false: "#767577",
-                  true: Colors[colorScheme ?? "light"].tint,
-                }}
-              />
-            )}
+        <ScrollView style={styles.scrollView}>
+          {/* Notifications */}
+          {renderSection(
+            "Notifications",
+            <>
+              {renderSettingRow(
+                "Enable Notifications",
+                "Receive alerts for upcoming meteor showers",
+                <Switch
+                  value={notificationSettings.enabled}
+                  onValueChange={(value) =>
+                    updateNotificationSettings({ enabled: value })
+                  }
+                  trackColor={{
+                    false: "#767577",
+                    true: Colors[colorScheme ?? "light"].tint,
+                  }}
+                />
+              )}
 
-            {notificationSettings.enabled && (
-              <>
-                {renderSettingRow(
-                  "Peak Reminders",
-                  "Get notified before shower peaks",
-                  <Switch
-                    value={notificationSettings.peakReminder}
-                    onValueChange={(value) =>
-                      updateNotificationSettings({ peakReminder: value })
-                    }
-                    trackColor={{
-                      false: "#767577",
-                      true: Colors[colorScheme ?? "light"].tint,
-                    }}
-                  />
-                )}
-
-                {renderSettingRow(
-                  "Days Before Peak",
-                  `Advance notice: ${notificationSettings.daysBefore} days`,
-                  <TextInput
-                    style={styles.numberInput}
-                    value={notificationSettings.daysBefore.toString()}
-                    onChangeText={(text) => {
-                      const days = parseInt(text) || 1;
-                      if (days >= 1 && days <= 30) {
-                        updateNotificationSettings({ daysBefore: days });
+              {notificationSettings.enabled && (
+                <>
+                  {renderSettingRow(
+                    "Peak Reminders",
+                    "Get notified before shower peaks",
+                    <Switch
+                      value={notificationSettings.peakReminder}
+                      onValueChange={(value) =>
+                        updateNotificationSettings({ peakReminder: value })
                       }
-                    }}
-                    keyboardType="numeric"
-                    maxLength={2}
-                  />
-                )}
+                      trackColor={{
+                        false: "#767577",
+                        true: Colors[colorScheme ?? "light"].tint,
+                      }}
+                    />
+                  )}
 
-                {renderSettingRow(
-                  "Hours Before Peak",
-                  `Final reminder: ${notificationSettings.hoursBeforePeak} hours`,
-                  <TextInput
-                    style={styles.numberInput}
-                    value={notificationSettings.hoursBeforePeak.toString()}
-                    onChangeText={(text) => {
-                      const hours = parseInt(text) || 1;
-                      if (hours >= 1 && hours <= 48) {
-                        updateNotificationSettings({ hoursBeforePeak: hours });
-                      }
-                    }}
-                    keyboardType="numeric"
-                    maxLength={2}
-                  />
-                )}
+                  {renderSettingRow(
+                    "Days Before Peak",
+                    `Advance notice: ${notificationSettings.daysBefore} days`,
+                    <TextInput
+                      style={styles.numberInput}
+                      value={notificationSettings.daysBefore.toString()}
+                      onChangeText={(text) => {
+                        const days = parseInt(text) || 1;
+                        if (days >= 1 && days <= 30) {
+                          updateNotificationSettings({ daysBefore: days });
+                        }
+                      }}
+                      keyboardType="numeric"
+                      maxLength={2}
+                    />
+                  )}
 
-                {renderSettingRow(
-                  "Minimum Rate Filter",
-                  `Only showers with ${notificationSettings.minimumZHR}+ meteors/hour`,
-                  <TextInput
-                    style={styles.numberInput}
-                    value={notificationSettings.minimumZHR.toString()}
-                    onChangeText={(text) => {
-                      const zhr = parseInt(text) || 1;
-                      if (zhr >= 1 && zhr <= 200) {
-                        updateNotificationSettings({ minimumZHR: zhr });
-                      }
-                    }}
-                    keyboardType="numeric"
-                    maxLength={3}
-                  />
-                )}
+                  {renderSettingRow(
+                    "Hours Before Peak",
+                    `Final reminder: ${notificationSettings.hoursBeforePeak} hours`,
+                    <TextInput
+                      style={styles.numberInput}
+                      value={notificationSettings.hoursBeforePeak.toString()}
+                      onChangeText={(text) => {
+                        const hours = parseInt(text) || 1;
+                        if (hours >= 1 && hours <= 48) {
+                          updateNotificationSettings({
+                            hoursBeforePeak: hours,
+                          });
+                        }
+                      }}
+                      keyboardType="numeric"
+                      maxLength={2}
+                    />
+                  )}
 
-                {renderSettingRow(
-                  "Test Notifications",
-                  "Send a test notification now",
-                  <TouchableOpacity
-                    style={styles.testButton}
-                    onPress={testNotifications}
+                  {renderSettingRow(
+                    "Minimum Rate Filter",
+                    `Only showers with ${notificationSettings.minimumZHR}+ meteors/hour`,
+                    <TextInput
+                      style={styles.numberInput}
+                      value={notificationSettings.minimumZHR.toString()}
+                      onChangeText={(text) => {
+                        const zhr = parseInt(text) || 1;
+                        if (zhr >= 1 && zhr <= 200) {
+                          updateNotificationSettings({ minimumZHR: zhr });
+                        }
+                      }}
+                      keyboardType="numeric"
+                      maxLength={3}
+                    />
+                  )}
+
+                  {renderSettingRow(
+                    "Test Notifications",
+                    "Send a test notification now",
+                    <TouchableOpacity
+                      style={styles.testButton}
+                      onPress={testNotifications}
+                    >
+                      <ThemedText style={styles.testButtonText}>
+                        Test
+                      </ThemedText>
+                    </TouchableOpacity>
+                  )}
+                </>
+              )}
+            </>
+          )}
+
+          {/* Location */}
+          {renderSection(
+            "Location",
+            <>
+              {renderSettingRow(
+                "Current Location",
+                userLocation
+                  ? `${userLocation.city || "Unknown"}, ${
+                      userLocation.country || "Earth"
+                    }`
+                  : "Location not set",
+                <TouchableOpacity
+                  style={styles.updateButton}
+                  onPress={updateLocation}
+                >
+                  <ThemedText style={styles.updateButtonText}>
+                    Update
+                  </ThemedText>
+                </TouchableOpacity>
+              )}
+
+              {userLocation && (
+                <View style={styles.locationDetails}>
+                  <ThemedText style={styles.locationText}>
+                    Latitude: {userLocation.latitude.toFixed(4)}°
+                  </ThemedText>
+                  <ThemedText style={styles.locationText}>
+                    Longitude: {userLocation.longitude.toFixed(4)}°
+                  </ThemedText>
+                  <ThemedText style={styles.locationText}>
+                    Timezone: {userLocation.timezone}
+                  </ThemedText>
+                </View>
+              )}
+            </>
+          )}
+
+          {/* Appearance */}
+          {renderSection(
+            "Appearance",
+            <>
+              {["auto", "light", "dark"].map((theme) => (
+                <TouchableOpacity
+                  key={theme}
+                  style={[
+                    styles.themeOption,
+                    themePreference === theme && styles.themeOptionSelected,
+                  ]}
+                  onPress={() =>
+                    updateTheme(theme as "light" | "dark" | "auto")
+                  }
+                >
+                  <ThemedText
+                    style={[
+                      styles.themeOptionText,
+                      themePreference === theme &&
+                        styles.themeOptionTextSelected,
+                    ]}
                   >
-                    <ThemedText style={styles.testButtonText}>Test</ThemedText>
-                  </TouchableOpacity>
-                )}
+                    {theme.charAt(0).toUpperCase() + theme.slice(1)} Theme
+                  </ThemedText>
+                  {themePreference === theme && (
+                    <ThemedText style={styles.themeOptionCheck}>✓</ThemedText>
+                  )}
+                </TouchableOpacity>
+              ))}
+            </>
+          )}
+
+          {/* Usage Statistics (for research) */}
+          {userEngagement &&
+            renderSection(
+              "Usage Statistics",
+              <>
+                <View style={styles.statRow}>
+                  <ThemedText style={styles.statLabel}>App Opens:</ThemedText>
+                  <ThemedText style={styles.statValue}>
+                    {userEngagement.appOpens}
+                  </ThemedText>
+                </View>
+                <View style={styles.statRow}>
+                  <ThemedText style={styles.statLabel}>
+                    Showers Viewed:
+                  </ThemedText>
+                  <ThemedText style={styles.statValue}>
+                    {userEngagement.showersViewed.length}
+                  </ThemedText>
+                </View>
+                <View style={styles.statRow}>
+                  <ThemedText style={styles.statLabel}>
+                    Notifications Clicked:
+                  </ThemedText>
+                  <ThemedText style={styles.statValue}>
+                    {userEngagement.notificationInteractions}
+                  </ThemedText>
+                </View>
+                <View style={styles.statRow}>
+                  <ThemedText style={styles.statLabel}>Time Spent:</ThemedText>
+                  <ThemedText style={styles.statValue}>
+                    {Math.round(userEngagement.totalTimeSpent)} min
+                  </ThemedText>
+                </View>
               </>
             )}
-          </>
-        )}
 
-        {/* Location */}
-        {renderSection(
-          "Location",
-          <>
-            {renderSettingRow(
-              "Current Location",
-              userLocation
-                ? `${userLocation.city || "Unknown"}, ${
-                    userLocation.country || "Earth"
-                  }`
-                : "Location not set",
-              <TouchableOpacity
-                style={styles.updateButton}
-                onPress={updateLocation}
-              >
-                <ThemedText style={styles.updateButtonText}>Update</ThemedText>
-              </TouchableOpacity>
-            )}
-
-            {userLocation && (
-              <View style={styles.locationDetails}>
-                <ThemedText style={styles.locationText}>
-                  Latitude: {userLocation.latitude.toFixed(4)}°
-                </ThemedText>
-                <ThemedText style={styles.locationText}>
-                  Longitude: {userLocation.longitude.toFixed(4)}°
-                </ThemedText>
-                <ThemedText style={styles.locationText}>
-                  Timezone: {userLocation.timezone}
-                </ThemedText>
-              </View>
-            )}
-          </>
-        )}
-
-        {/* Appearance */}
-        {renderSection(
-          "Appearance",
-          <>
-            {["auto", "light", "dark"].map((theme) => (
-              <TouchableOpacity
-                key={theme}
-                style={[
-                  styles.themeOption,
-                  themePreference === theme && styles.themeOptionSelected,
-                ]}
-                onPress={() => updateTheme(theme as "light" | "dark" | "auto")}
-              >
-                <ThemedText
-                  style={[
-                    styles.themeOptionText,
-                    themePreference === theme && styles.themeOptionTextSelected,
-                  ]}
-                >
-                  {theme.charAt(0).toUpperCase() + theme.slice(1)} Theme
-                </ThemedText>
-                {themePreference === theme && (
-                  <ThemedText style={styles.themeOptionCheck}>✓</ThemedText>
-                )}
-              </TouchableOpacity>
-            ))}
-          </>
-        )}
-
-        {/* Usage Statistics (for research) */}
-        {userEngagement &&
-          renderSection(
-            "Usage Statistics",
+          {/* Data Management */}
+          {renderSection(
+            "Data Management",
             <>
-              <View style={styles.statRow}>
-                <ThemedText style={styles.statLabel}>App Opens:</ThemedText>
-                <ThemedText style={styles.statValue}>
-                  {userEngagement.appOpens}
-                </ThemedText>
+              {renderSettingRow(
+                "Clear All Data",
+                "Remove all preferences and favorites",
+                <TouchableOpacity
+                  style={styles.dangerButton}
+                  onPress={clearAllData}
+                >
+                  <ThemedText style={styles.dangerButtonText}>Clear</ThemedText>
+                </TouchableOpacity>
+              )}
+            </>
+          )}
+
+          {/* App Info */}
+          {renderSection(
+            "About",
+            <>
+              <View style={styles.infoRow}>
+                <ThemedText style={styles.infoLabel}>Version:</ThemedText>
+                <ThemedText style={styles.infoValue}>1.0.0</ThemedText>
               </View>
-              <View style={styles.statRow}>
-                <ThemedText style={styles.statLabel}>
-                  Showers Viewed:
-                </ThemedText>
-                <ThemedText style={styles.statValue}>
-                  {userEngagement.showersViewed.length}
-                </ThemedText>
-              </View>
-              <View style={styles.statRow}>
-                <ThemedText style={styles.statLabel}>
-                  Notifications Clicked:
-                </ThemedText>
-                <ThemedText style={styles.statValue}>
-                  {userEngagement.notificationInteractions}
-                </ThemedText>
-              </View>
-              <View style={styles.statRow}>
-                <ThemedText style={styles.statLabel}>Time Spent:</ThemedText>
-                <ThemedText style={styles.statValue}>
-                  {Math.round(userEngagement.totalTimeSpent)} min
+              <View style={styles.infoRow}>
+                <ThemedText style={styles.infoLabel}>Data Source:</ThemedText>
+                <ThemedText style={styles.infoValue}>
+                  International Meteor Organization
                 </ThemedText>
               </View>
             </>
           )}
 
-        {/* Data Management */}
-        {renderSection(
-          "Data Management",
-          <>
-            {renderSettingRow(
-              "Clear All Data",
-              "Remove all preferences and favorites",
-              <TouchableOpacity
-                style={styles.dangerButton}
-                onPress={clearAllData}
-              >
-                <ThemedText style={styles.dangerButtonText}>Clear</ThemedText>
-              </TouchableOpacity>
-            )}
-          </>
-        )}
-
-        {/* App Info */}
-        {renderSection(
-          "About",
-          <>
-            <View style={styles.infoRow}>
-              <ThemedText style={styles.infoLabel}>Version:</ThemedText>
-              <ThemedText style={styles.infoValue}>1.0.0</ThemedText>
-            </View>
-            <View style={styles.infoRow}>
-              <ThemedText style={styles.infoLabel}>Data Source:</ThemedText>
-              <ThemedText style={styles.infoValue}>
-                International Meteor Organization
-              </ThemedText>
-            </View>
-          </>
-        )}
-
-        <View style={styles.bottomPadding} />
-      </ScrollView>
+          <View style={styles.bottomPadding} />
+        </ScrollView>
       </ThemedView>
     </SafeAreaView>
   );
@@ -437,19 +449,25 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingTop: 50,
+    paddingTop: 60,
     paddingBottom: 20,
     paddingHorizontal: 20,
     alignItems: "center",
+    minHeight: 120,
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 5,
+    textAlign: "center",
+    letterSpacing: 0.5,
+    lineHeight: 34,
   },
   headerSubtitle: {
     fontSize: 16,
     opacity: 0.7,
+    textAlign: "center",
+    lineHeight: 20,
   },
   scrollView: {
     flex: 1,

@@ -253,19 +253,25 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingTop: 50,
+    paddingTop: 60,
     paddingBottom: 20,
     paddingHorizontal: 20,
     alignItems: "center",
+    minHeight: 120,
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 5,
+    textAlign: "center",
+    letterSpacing: 0.5,
+    lineHeight: 34,
   },
   headerSubtitle: {
     fontSize: 16,
     opacity: 0.7,
+    textAlign: "center",
+    lineHeight: 20,
   },
   monthSelector: {
     maxHeight: 80,
