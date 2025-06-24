@@ -407,17 +407,7 @@ const AddObservationModal = ({
               onPress={() => {
                 Alert.alert(
                   "Select Shower",
-                  "Choose the meteor shower you observed:",
-                  METEOR_SHOWERS_2025.map((shower) => ({
-                    text: shower.name,
-                    onPress: () => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        showerId: shower.id,
-                        showerName: shower.name,
-                      }));
-                    },
-                  })).concat([{ text: "Cancel", style: "cancel" }])
+                  "Choose the meteor shower you observed:"
                 );
               }}
             >
